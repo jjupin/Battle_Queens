@@ -2,31 +2,23 @@ package com.chess.candidate.battlequeens.features.playgame.viewmodel
 
 import android.content.Context
 import android.media.MediaPlayer
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.chess.candidate.battlequeens.R
-import com.chess.candidate.battlequeens.data.GameStat
 import com.chess.candidate.battlequeens.data.GameRepository
 import com.chess.candidate.battlequeens.data.GameRepositoryImpl
+import com.chess.candidate.battlequeens.data.GameStat
 import com.chess.candidate.battlequeens.data.source.GameDatabase
 import com.chess.candidate.battlequeens.features.playgame.BoardManager
 import com.chess.candidate.battlequeens.features.playgame.model.BoardModel
 import com.chess.candidate.battlequeens.features.playgame.model.SquareModel
-import com.chess.candidate.battlequeens.features.preferences.UserPreferencesRepository
 import com.chess.candidate.battlequeens.features.preferences.UserPreferencesViewModel
-import com.chess.candidate.battlequeens.features.preferences.UserPreferencesViewModelFactory
 import com.chess.candidate.battlequeens.features.preferences.model.UserPreferences
 import com.chess.candidate.battlequeens.features.utils.viewmodel.GameTimerViewModel
-import com.chess.candidate.battlequeens.utils.Constants.AppConstants
-import com.chess.candidate.battlequeens.ui.components.board.HandleAction
 import com.chess.candidate.battlequeens.ui.components.board.CurrentData
+import com.chess.candidate.battlequeens.ui.components.board.HandleAction
+import com.chess.candidate.battlequeens.utils.Constants.AppConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,7 +26,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
