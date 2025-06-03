@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Battle Queens</string>
+    <string name="exapnd_or_collapse">Expand or Collapse</string>
+    <string name="queen">Queen</string>
+    <string name="queens">Queens</string>
+    <string name="best">Best:</string>
+
+    <string name="exit">Exit</string>
+    <string name="exit_game">Exit Game</string>
+    <string name="reset">Reset</string>
+
+    <plurals name="numberOfQueensAvailable">
+        <!--
+                 As a developer, you should always supply "one" and "other"
+                 strings. Your translators will know which strings are actually
+                 needed for their language. Always include %d in "one" because
+                 translators will need to use %d for languages where "one"
+                 doesn't mean 1 (as explained above).
+              -->
+        <item quantity="one">%d remaining Queen</item>
+        <item quantity="other">%d remaining Queens</item>
+    </plurals>
+
+    // Enter number of queens dialog strings
+    <string name="enter_number_of_queens_title">Select the number of queens to initialize your board</string>
+    <string name="error_number_entered">Please select a number between \n <b>%1$d</b> and <b>%2$d</b></string>
+
+
+    // Game over dialog strings
+    <string name="game_over_dialog_title">You won!</string>
+    <string name="time_elapsed">Time Elapsed:</string>
+    <string name="queens_placed">Queens Placed:</string>
+    <string name="play_again">Play Again?   </string>
+    <string name="view_stats">View Stats</string>
+
+
+    // blocked dialog strings
+    <string name="blocked_dialog_title">Game Blocked!</string>
+    <string name="blocked_dialog_message">There are no squares left in which to place a queen without dying.</string>
+    <string name="reset_game">Reset Game</string>
+    <string name="remove_last_queen">Remove last queen?</string>
+
+    // No suggestions dialog strings
+    <string name="no_suggestions_dialog_title">No Suggestions Available</string>
+    <string name="no_suggestions_dialog_message">Unfortunately, the current placement of Queens will not lead to a solution for this puzzle.  There are no suggestions. \n\n You can remove a queen to find a possible solution.</string>
+
+</resources>
