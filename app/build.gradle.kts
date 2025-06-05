@@ -81,15 +81,24 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.fontawesome)
     implementation(libs.datastore.preferences)
+    implementation(libs.foundation.pager)
+    implementation(libs.core.ktx)
+    implementation(libs.androidx.junit.ktx)
     ksp(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.compiler)
     testImplementation(libs.junit)
+    testImplementation (libs.mockito)
+    testImplementation(libs.androidx.test.runner)
+    testImplementation(libs.executor.testing)
     testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
 
 }

@@ -11,5 +11,6 @@ data class UserPreferences(
     val isShowAvailableSquaresEnabled: Boolean = true,
     var isEinsteinModeEnabled: Boolean = false,
     val boardTheme: Int = 0,
+    val wallpaper: Int = 0,
     val isFirstTime: Boolean = true,
 )

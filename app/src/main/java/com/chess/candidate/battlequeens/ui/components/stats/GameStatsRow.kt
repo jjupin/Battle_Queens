@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,14 +25,11 @@ import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.text.toSpannable
 import com.chess.candidate.battlequeens.R
 import com.chess.candidate.battlequeens.data.GameStat
-import com.chess.candidate.battlequeens.ui.components.dialogs.RegularDialog
 import com.chess.candidate.battlequeens.ui.theme.SquareDark
 import com.chess.candidate.battlequeens.ui.theme.SquareLight
 import com.chess.candidate.battlequeens.ui.utils.showIf
@@ -47,7 +42,7 @@ fun GameStatRow(
     modifier: Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onStatClick)
             .padding(1.dp),

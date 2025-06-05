@@ -1,5 +1,6 @@
 package com.chess.candidate.battlequeens.features.preferences
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import androidx.datastore.core.DataStore
@@ -33,9 +34,10 @@ class UserPreferencesRepository(private val context: Context) {
         private val AVAILABLE_SQUARES_ENABLED_KEY = booleanPreferencesKey("isShowAvailableSquaresEnabled")
         private val EINSTEIN_ENABLED_KEY = booleanPreferencesKey("isEinsteinModeEnabled")
         private val BOARD_THEME_KEY = intPreferencesKey("boardTheme")
-
+        private val WALLPAPER_KEY = intPreferencesKey("wallpaper")
         private val FIRST_TIME_KEY = booleanPreferencesKey("isFirstTime")
 
+        @SuppressLint("StaticFieldLeak")
         @Volatile
         private var INSTANCE: UserPreferencesRepository? = null
         fun getRepository(context: Context): UserPreferencesRepository {
@@ -56,20 +58,23 @@ class UserPreferencesRepository(private val context: Context) {
             preferences[DARK_MODE_KEY] ?: false,
             preferences[SOUND_ENABLED_KEY] ?: true,
             preferences[ANIMATION_ENABLED_KEY] ?: true,
-            preferences[FAST_FAIL_ENABLED_KEY] ?: true,
+            preferences[FAST_FAIL_ENABLED_KEY] ?: false,
             preferences[AVAILABLE_SQUARES_ENABLED_KEY] ?: false,
             preferences[EINSTEIN_ENABLED_KEY] ?: false,
             preferences[BOARD_THEME_KEY] ?: 0,
+            preferences[WALLPAPER_KEY] ?: 0,
             preferences[FIRST_TIME_KEY] ?: true,
 
         )
     }
 
+    var pulledFromDatastore = MutableStateFlow(false)
     val userPrefs : StateFlow<UserPreferences> =
         MutableStateFlow(UserPreferences()).apply {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 CoroutineScope(context = context.mainExecutor.asCoroutineDispatcher()).launch {
                     localPrefs.collect { prefs ->
+                        pulledFromDatastore.value = true
                         value = prefs
                     }
                 }
@@ -85,6 +90,7 @@ class UserPreferencesRepository(private val context: Context) {
             preferences[FAST_FAIL_ENABLED_KEY] = userPrefs.isFastFailEnabled
             preferences[AVAILABLE_SQUARES_ENABLED_KEY] = userPrefs.isShowAvailableSquaresEnabled
             preferences[BOARD_THEME_KEY] = userPrefs.boardTheme
+            preferences[WALLPAPER_KEY] = userPrefs.wallpaper
             preferences[FIRST_TIME_KEY] = userPrefs.isFirstTime
             preferences[EINSTEIN_ENABLED_KEY] = userPrefs.isEinsteinModeEnabled
         }

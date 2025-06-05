@@ -19,6 +19,8 @@ kotlinSerialization = "2.1.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
+mockitoVersion = "5.7.0"
+executorTestingVersion = "2.0.0"
 espressoCore = "3.6.1"
 kotlinxSerializationCore = "1.8.1"
 kotlinxSerializationJson = "1.6.3"
@@ -33,10 +35,18 @@ ksp = "2.1.20-2.0.0"
 hilt = "2.56.2"
 compose-settings = "2.10.0"
 datastore-preferences = "1.1.7"
+pagerVersion = "1.7.2"
+coroutinesVersion = "1.7.3"
+coreKtxVersion = "1.6.1"
+junitKtx = "1.2.1"
+androidxTest = "1.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoVersion" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTest" }
+executor-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "executorTestingVersion" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -48,7 +58,7 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-koin-bom = { group = "io.insert-koin", name = "koin-bom", version = "4.0.4" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesVersion" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version = "4.0.4" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }
 coil-gif = { group = "io.coil-kt", name = "coil-gif", version.ref = "coilGif" }
@@ -63,13 +73,10 @@ fontawesome = { group = "com.shirishkoirala", name = "FontAwesome", version.ref 
 
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3" }
-androidx-material3-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout", version.ref = "material3" }
 androidx-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout" }
 androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodel" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationCore" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
@@ -77,6 +84,10 @@ androidx-material3-navigation3 = { group = "androidx.compose.material3.adaptive"
 composeSettings-ui = { group = "com.github.alorma.compose-settings", name = "ui-tiles", version.ref = "compose-settings" }
 composeSettings-ui-extended = { group = "com.github.alorma.compose-settings", name = "ui-tiles-extended", version.ref = "compose-settings" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-preferences" }
+
+foundation-pager = { group = "androidx.compose.foundation", name = "foundation", version.ref = "pagerVersion" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
 
 [plugins]

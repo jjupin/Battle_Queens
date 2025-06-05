@@ -1,5 +1,6 @@
 package com.chess.candidate.battlequeens.ui.components.dialogs
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ import com.chess.candidate.battlequeens.R
 import com.chess.candidate.battlequeens.utils.Constants.AppConstants.MINIMUM_NUMBER_QUEENS
 import com.chess.candidate.battlequeens.ui.components.misc.CounterButton
 import com.chess.candidate.battlequeens.ui.theme.PastelOrange
+import com.chess.candidate.battlequeens.ui.theme.onTertiaryContainerLight
 import com.chess.candidate.battlequeens.utils.Constants.AppConstants.MAXIMUM_NUMBER_QUEENS
 
 @Composable
@@ -52,7 +54,8 @@ fun GetNumberOfQueensDialog(
 @Composable
 fun EnterNumberOfQueensSection(
     onDismiss: () -> Unit,
-    onConfirm: (Int?) -> Unit
+    onConfirm: (Int?) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var inputValue by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
@@ -67,7 +70,7 @@ fun EnterNumberOfQueensSection(
         stringResource(R.string.error_number_entered, MINIMUM_NUMBER_QUEENS, MAXIMUM_NUMBER_QUEENS)
     Surface(shape = MaterialTheme.shapes.medium) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = modifier.padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -150,8 +153,11 @@ fun EnterNumberOfQueensSection(
 @Composable
 @PreviewLightDark
 fun GetNumberOfQueensDialogPreview() {
-    GetNumberOfQueensDialog(
+    EnterNumberOfQueensSection(
         onDismiss = {},
-        onConfirm = {}
+        onConfirm = {},
+        modifier = Modifier
+            .background(onTertiaryContainerLight)
+            .semantics { contentDescription = "Get Number of Queens Dialog Preview" }
     )
 }

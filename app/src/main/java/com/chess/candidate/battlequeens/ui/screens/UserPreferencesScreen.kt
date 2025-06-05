@@ -1,5 +1,6 @@
 package com.chess.candidate.battlequeens.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter.State.Empty.painter
@@ -56,6 +58,7 @@ fun UserPreferencesScreen(
     var enableAnimationState by remember { mutableStateOf(userPrefs.isAnimationEnabled) }
     var enableEinsteinState by remember { mutableStateOf(userPrefs.isEinsteinModeEnabled) }
     var themeSelectedState by remember { mutableStateOf(userPrefs.boardTheme) }
+    var wallpaperSelectedState by remember { mutableStateOf(userPrefs.wallpaper) }
 
     var userPrefsState by remember {
         mutableStateOf(userPrefs)
@@ -207,44 +210,164 @@ fun UserPreferencesScreen(
                             modifier = Modifier,
                             enabled = true,
                             icon = { },//Icon(...) },
+                            onClick = { } // turned off for now, as it is the default theme
+                        )
+
+                    }
+                }
+            }
+            ElevatedCard(Modifier.fillMaxWidth().padding(8.dp),) {
+                Box(Modifier.fillMaxSize()) {
+                    SettingsGroup(
+                        modifier = Modifier,
+                        enabled = true,
+                        title = { Text(text = "Wallpaper") },
+                        contentPadding = PaddingValues(8.dp),
+                    ) {
+                        SettingsRadioButton(
+                            state = wallpaperSelectedState == 0,
+                            title = { Text(text = "Battle Queens Classic") },
+                            subtitle = { Text(text = "") },
+                            modifier = Modifier,
+                            enabled = true,
+                            icon = { Image(
+                                modifier = Modifier.size(96.dp),
+                                painter = painterResource(id = R.drawable.wallpaper_02),
+                                contentDescription = "Classic wallpaper") },
                             onClick = {
-//                                if (it.isChecked) {
-//                                    themeSelectedState = 0
-//                                    updatePreferences(
-//                                        userPrefs.copy(
-//                                            boardTheme = themeSelectedState
-//                                        )
-//                                    )
-//                                }
+                                wallpaperSelectedState = 0
+                                userPrefsState = userPrefsState.copy(
+                                    wallpaper = wallpaperSelectedState
+                                )
+                                updatePreferences(userPrefsState)
                             }
                         )
                         SettingsRadioButton(
-                            state = false,
-                            title = { Text(text = "The Simpsons") },
-                            subtitle = { Text(text = "D'oh!") },
+                            state = wallpaperSelectedState == 1,
+                            title = { Text(text = "Striped") },
+                            subtitle = { Text(text = "") },
                             modifier = Modifier,
                             enabled = true,
-                            icon = { },//Icon(...) },
+                            icon = { Image(
+                                modifier = Modifier.size(96.dp),
+                                painter = painterResource(id = R.drawable.wallpaper_01),
+                                contentDescription = "Classic wallpaper") },
                             onClick = {
-//                                if (it.) {
-//                                    themeSelectedState = 2
-//                                    updatePreferences(
-//                                        userPrefs.copy(
-//                                            boardTheme = themeSelectedState
-//                                        )
-//                                    )
-//                                }
+                                wallpaperSelectedState = 1
+                                userPrefsState = userPrefsState.copy(
+                                    wallpaper = wallpaperSelectedState
+                                )
+                                updatePreferences(userPrefsState)
                             }
                         )
                         SettingsRadioButton(
-                            state = false,
-                            title = { Text(text = "Minions") },
-                            subtitle = { Text(text = "Banana, banana, banana!") },
+                            state = wallpaperSelectedState == 2,
+                            title = { Text(text = "Rust colored stone") },
+                            subtitle = { Text(text = "") },
                             modifier = Modifier,
                             enabled = true,
-                            icon = { },//Icon(...) },
-                            onClick = { },
+                            icon = { Image(
+                                modifier = Modifier.size(96.dp),
+                                painter = painterResource(id = R.drawable.wallpaper_03),
+                                contentDescription = "Classic wallpaper") },
+                            onClick = {
+                                wallpaperSelectedState = 2
+                                userPrefsState = userPrefsState.copy(
+                                    wallpaper = wallpaperSelectedState
+                                )
+                                updatePreferences(userPrefsState)
+                            }
                         )
+                        SettingsRadioButton(
+                            state = wallpaperSelectedState == 3,
+                            title = { Text(text = "Art Deco") },
+                            subtitle = { Text(text = "") },
+                            modifier = Modifier,
+                            enabled = true,
+                            icon = { Image(
+                                modifier = Modifier.size(96.dp),
+                                painter = painterResource(id = R.drawable.wallpaper_04),
+                                contentDescription = "Classic wallpaper") },
+                            onClick = {  wallpaperSelectedState = 3
+                                userPrefsState = userPrefsState.copy(
+                                    wallpaper = wallpaperSelectedState
+                                )
+                                updatePreferences(userPrefsState)
+                            }
+                        )
+                        SettingsRadioButton(
+                            state = wallpaperSelectedState == 4,
+                            title = { Text(text = "Green Palms") },
+                            subtitle = { Text(text = "") },
+                            modifier = Modifier,
+                            enabled = true,
+                            icon = { Image(
+                                modifier = Modifier.size(96.dp),
+                                painter = painterResource(id = R.drawable.wallpaper_05),
+                                contentDescription = "Classic wallpaper") },
+                            onClick = {
+                                wallpaperSelectedState = 4
+                                userPrefsState = userPrefsState.copy(
+                                    wallpaper = wallpaperSelectedState
+                                )
+                                updatePreferences(userPrefsState)
+                            }
+                        )
+                        SettingsRadioButton(
+                            state = wallpaperSelectedState == 5,
+                            title = { Text(text = "Dusty Stone") },
+                            subtitle = { Text(text = "") },
+                            modifier = Modifier,
+                            enabled = true,
+                            icon = { Image(
+                                modifier = Modifier.size(96.dp),
+                                painter = painterResource(id = R.drawable.wallpaper_06),
+                                contentDescription = "Classic wallpaper") },
+                            onClick = {
+                                wallpaperSelectedState = 5
+                                userPrefsState = userPrefsState.copy(
+                                    wallpaper = wallpaperSelectedState
+                                )
+                                updatePreferences(userPrefsState)
+                            }
+                        )
+                        SettingsRadioButton(
+                            state = wallpaperSelectedState == 6,
+                            title = { Text(text = "Monet Chess...") },
+                            subtitle = { Text(text = "") },
+                            modifier = Modifier,
+                            enabled = true,
+                            icon = { Image(
+                                modifier = Modifier.size(96.dp),
+                                painter = painterResource(id = R.drawable.chess_monet_wallpaper),
+                                contentDescription = "Classic wallpaper") },
+                            onClick = {
+                                wallpaperSelectedState = 6
+                                userPrefsState = userPrefsState.copy(
+                                    wallpaper = wallpaperSelectedState
+                                )
+                                updatePreferences(userPrefsState)
+                            }
+                        )
+                        SettingsRadioButton(
+                            state = wallpaperSelectedState == 7,
+                            title = { Text(text = "Pop Art Chess") },
+                            subtitle = { Text(text = "") },
+                            modifier = Modifier,
+                            enabled = true,
+                            icon = { Image(
+                                modifier = Modifier.size(96.dp),
+                                painter = painterResource(id = R.drawable.chess_pop_art_wallpaper),
+                                contentDescription = "Classic wallpaper") },
+                            onClick = {
+                                wallpaperSelectedState = 7
+                                userPrefsState = userPrefsState.copy(
+                                    wallpaper = wallpaperSelectedState
+                                )
+                                updatePreferences(userPrefsState)
+                            }
+                        )
+
                     }
                 }
             }
@@ -253,7 +376,7 @@ fun UserPreferencesScreen(
 }
 
 @Composable
-@PreviewScreenSizes
+@PreviewLightDark
 fun SettingsScreenPreview() {
     UserPreferencesScreen(
         modifier = Modifier.fillMaxSize(),

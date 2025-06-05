@@ -34,19 +34,13 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
     val prefsViewModel: UserPreferencesViewModel) : ViewModel(), HandleAction, CurrentData {
     val TAG = "PlayGameViewModel"
 
-   // private var timerViewModel = GameTimerViewModel()
-    //private var prefsViewModel = UserPreferencesViewModel(UserPreferencesRepository(appContext))
-
     enum class GameState {
         START,
         PLAYING,
         GAME_OVER,
         GAME_WON,
-        GAME_LOST,
         GAME_BLOCKED, // when the user cannot complete due to no available squares without dying...
         NO_SOLUTIONS_AVAILABLE,
-        GAME_RESET,
-        ERROR
     }
 
     private val _boardManager = boardManager
@@ -55,8 +49,6 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
     val gameState: StateFlow<GameState> = _gameState
 
     var _showKilledQueensPaths = mutableStateOf(true)  // will be set in settings...
-    val showKilledQueensPaths: Boolean
-        get() = _showKilledQueensPaths.value
 
     var _numQueens = mutableStateOf(AppConstants.MINIMUM_NUMBER_QUEENS)
     val numQueens: Int
@@ -65,7 +57,7 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
     var _lastAddedQueenSquare = mutableStateOf(SquareModel(0, 0))
 
     private var squaresWithQueen = mutableListOf<SquareModel>()
-    private var _usedEinstein = mutableStateOf(false) // changes when user uses Einstein mode
+    private var _usedEinstein = mutableStateOf(false) // changes when user clicks on the Einstein button
 
     val boardState: StateFlow<BoardModel> = _boardManager.boardState
 
@@ -75,13 +67,6 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
 
     private val _highLightCounter = MutableStateFlow(0)
     val highLightCounter = _highLightCounter.asStateFlow()
-
-    private var _powerLineSquares = mutableStateOf<List<SquareModel>>(emptyList())
-    val powerLineSquares: List<SquareModel>
-        get() = _powerLineSquares.value
-
-    private val _powerLinesCounter = MutableStateFlow(0)
-    val powerLinesCounter = _powerLinesCounter.asStateFlow()
 
     private val _gameOver = MutableStateFlow(false)
     val gameOver = _gameOver.asStateFlow()
@@ -104,6 +89,14 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
 
     fun updateGameState(newState: GameState) {
         _gameState.value = newState
+    }
+
+    fun updateFirstTime(firstTime: Boolean) {
+        viewModelScope.launch {
+            val currentPrefs = prefsViewModel.userPrefs.value ?: UserPreferences()
+            val newPrefs = currentPrefs.copy(isFirstTime = firstTime)
+            prefsViewModel.updateUserPreferences(newPrefs)
+        }
     }
 
     fun updateBoardState(squares: Array<Array<SquareModel>>) {
@@ -175,11 +168,13 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
 
     fun removeLastQueen() {
        _boardManager.removeQueen(_lastAddedQueenSquare.value.row, _lastAddedQueenSquare.value.column)
+        _gameState.value = GameState.PLAYING
     }
 
     fun showNextMove(row: Int, col: Int) {
-        // Show the next move for the user
-        val squares = _boardManager.highlightNextMove(row, col)
+        // Show the next move for the user - this is used when the user
+        // taps on the Einstein button to get a suggestion for the next move.
+        _boardManager.highlightNextMove(row, col)
     }
 
     fun showNoSuggestionsAvailable() {
@@ -195,20 +190,19 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
     fun resetGame() {
         timerViewModel.resetTimer()
         viewModelScope.launch {
+            _usedEinstein.value = false
             FindSolutions.resetSolution()
         }
         _boardManager.resetGame()
     }
 
+    // Handle actions from the board - originally, I was going to show the power lines of the
+    // tapped queen - the lanes where another queen could be placed without being attacked.
+    // However, I decided to remove this feature for now.
     override fun onDoubleTap(whichSquare: SquareModel): SquareModel {
         // Handle double tap action
-        whichSquare.showPowerLines = !whichSquare.showPowerLines
+        //whichSquare.showPowerLines = !whichSquare.showPowerLines
         //highlightQueensPowerPaths(whichSquare)
-
-        if (!whichSquare.showPowerLines) {
-            // If the square is not highlighted, remove highlights from all squares
-            _powerLineSquares.value = emptyList()
-        }
 
         return whichSquare.copy()
     }
@@ -251,133 +245,6 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
 
     fun playQueenKilledSound(context: Context) {
         playSound(context, R.raw.homer_doh)
-    }
-
-    fun highlightKilledQueensPaths() {
-        _highlightedSquares.value.map {
-            it.isHighlighted = false
-        }
-        _highlightedSquares.value = mutableListOf<SquareModel>()
-        _highLightCounter.value = 0
-        squaresWithQueen = mutableListOf<SquareModel>()
-    }
-
-    fun highlightPathBetweenQueens(
-        startSquare: SquareModel,
-        endSquare: SquareModel,
-        doHighlight: Boolean = true
-    ) {
-        val highlighted = mutableListOf<SquareModel>()
-        startSquare.isHighlighted = doHighlight
-        endSquare.isHighlighted = doHighlight
-
-        // now, highlight the path between the two squares
-
-        if (startSquare.row == endSquare.row) {
-            // Same row
-            for (col in Math.min(
-                startSquare.column,
-                endSquare.column
-            ) until Math.max(startSquare.column, endSquare.column) + 1) {
-                val square = getSquare(startSquare.row, col).copy()
-                square.isHighlighted = doHighlight
-                highlighted.add(square)
-            }
-        } else if (startSquare.column == endSquare.column) {
-            // Same column
-            for (row in Math.min(startSquare.row, endSquare.row) until Math.max(
-                startSquare.row,
-                endSquare.row
-            ) + 1) {
-                val square = getSquare(row, startSquare.column).copy()
-                square.isHighlighted = doHighlight
-                highlighted.add(square)
-            }
-        } else {
-            // Diagonal movement
-            val rowStep = if (endSquare.row > startSquare.row) 1 else -1
-            val colStep = if (endSquare.column > startSquare.column) 1 else -1
-
-            var row = startSquare.row
-            var col = startSquare.column
-
-            while (row != endSquare.row && col != endSquare.column) {
-                val square = getSquare(row, col).copy()
-                square.isHighlighted = doHighlight
-                highlighted.add(square)
-                row += rowStep
-                col += colStep
-            }
-        }
-
-        _highlightedSquares.value =
-            (_highlightedSquares.value.filter { it !in highlighted } + highlighted).distinctBy { it.row to it.column }
-        _highLightCounter.value = _highlightedSquares.value.size
-
-        updateBoardWithHighlightedSquares(highlighted, _highlightedSquares.value)
-    }
-
-    fun updateBoardWithHighlightedSquares(
-        highlighted: List<SquareModel>,
-        totalList: List<SquareModel>
-    ) {
-        viewModelScope.launch {
-            /**
-            val newBoardSquares = _boardState.value.squares.copyOf()
-            for (square in highlighted) {
-                val updatedSquare = square.copy(isHighlighted = true)
-                newBoardSquares[square.row][square.column] = updatedSquare
-            }
-            updateBoardState(newBoardSquares)
-            //delay(500)
-
-            for (square in totalList) {
-                val updatedSquare = square.copy()
-                val newBoardSquares = _boardState.value.squares.copyOf()
-                newBoardSquares[square.row][square.column] = updatedSquare
-                updateBoardState(numQueens, newBoardSquares)
-            }
-            **/
-        }
-    }
-
-    /*
-    Highlight the paths of the queen based on the tapped square
-    */
-    fun highlightQueensPowerPaths(whichSquare: SquareModel) {
-        // Highlight the paths of the queens based on the tapped square
-        val powerLineSquares = mutableListOf<SquareModel>()
-        if (!whichSquare.showPowerLines) {
-            _powerLineSquares.value.map {
-                it.showPowerLines = false
-                return
-            }
-        }
-
-        _powerLineSquares.value = emptyList()
-
-        for (pos in 0 until numQueens) {
-            var square = getSquare(pos, whichSquare.column)
-            if (square == whichSquare) continue
-            square.showPowerLines = !square.showPowerLines
-            when (square.showPowerLines) {
-                true -> powerLineSquares.add(square)
-                false -> powerLineSquares.remove(square)
-            }
-            square = getSquare(whichSquare.row, pos)
-            if (square == whichSquare) continue
-            square.showPowerLines = !square.showPowerLines
-            when (square.showPowerLines) {
-                true -> powerLineSquares.add(square)
-                false -> powerLineSquares.remove(square)
-            }
-
-            _powerLinesCounter.value = powerLineSquares.size
-        }
-
-
-        _powerLineSquares.value = (_powerLineSquares.value + powerLineSquares).distinct()
-        _powerLinesCounter.value = _powerLineSquares.value.size
     }
 
     //
@@ -458,9 +325,13 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
                 val newPrefs =
                     currentPrefs.copy(isEinsteinModeEnabled = modeEnabled)
                 prefsViewModel.updateUserPreferences(newPrefs)
-                _usedEinstein.value = newPrefs.isEinsteinModeEnabled
+                //_usedEinstein.value = newPrefs.isEinsteinModeEnabled
             }
         }
+    }
+
+    fun einsteinButtonTapped() {
+        _usedEinstein.value = true
     }
 
     fun updateUserPrefs(prefs: UserPreferences) {
@@ -475,7 +346,9 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
                 isSoundEnabled = prefs.isSoundEnabled,
                 isDarkMode = prefs.isDarkMode,
                 isFastFailEnabled = prefs.isFastFailEnabled,
-                isEinsteinModeEnabled = prefs.isEinsteinModeEnabled
+                isEinsteinModeEnabled = prefs.isEinsteinModeEnabled,
+                wallpaper = prefs.wallpaper,
+                isFirstTime = prefs.isFirstTime
             )
             prefsViewModel.updateUserPreferences(newPrefs)
         }
@@ -483,6 +356,10 @@ class PlayGameViewModel(appContext: Context, val boardManager: BoardManager,
 
     fun getUserPrefsAsStream() : StateFlow<UserPreferences?> {
         return prefsViewModel.userPrefs
+    }
+
+    fun getPulledFromDatastoreAsStream(): StateFlow<Boolean> {
+        return prefsViewModel.pulledFromDatastore
     }
 
 }

@@ -37,17 +37,13 @@ import com.chess.candidate.battlequeens.features.preferences.UserPreferencesRepo
 import com.chess.candidate.battlequeens.features.preferences.UserPreferencesViewModel
 import com.chess.candidate.battlequeens.features.utils.viewmodel.GameTimerViewModel
 import com.chess.candidate.battlequeens.ui.components.board.Board
-import com.chess.candidate.battlequeens.ui.components.misc.ButtonEinstein
-import com.chess.candidate.battlequeens.ui.components.misc.GameButtonsBox
 import com.chess.candidate.battlequeens.ui.components.misc.GameTimer
 import com.chess.candidate.battlequeens.ui.components.misc.GameTopBar
-import com.chess.candidate.battlequeens.ui.components.misc.LightBulbsBox
 import com.chess.candidate.battlequeens.ui.components.misc.QueenCounter
 import com.chess.candidate.battlequeens.ui.components.misc.StatusBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import org.koin.android.ext.koin.androidContext
 import kotlin.system.exitProcess
 
 @Composable
@@ -109,7 +105,7 @@ fun PortraitContent(
             viewModel = viewModel,
             einsteinModeEnabled = userPrefs.isEinsteinModeEnabled,
             onEinsteinClick = {
-                viewModel.toggleEinsteinMode(true)
+                viewModel.einsteinButtonTapped()
                 FindSolutions.getNextSquare(viewModel)
             },
             onResetClick = {
@@ -202,17 +198,6 @@ fun LandscapeContent(
     device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=portrait"
 )
 fun BQContentScreenPortraitPreview() {
-    val coroutineScope = rememberCoroutineScope()
-    /**
-    val defaultRepo = GameStatsRepositoryImpl(
-    localDataSource = GameStatsDatabase.getDatabase(
-    context = LocalContext.current,
-    scope = coroutineScope
-    ).gameStatDao(),
-    dispatcher = Dispatchers.Main as CoroutineDispatcher
-    )
-     **/
-
     BQContentScreen(
         viewModel = PlayGameViewModel(LocalContext.current, BoardManager(),
             GameTimerViewModel(),

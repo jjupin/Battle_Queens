@@ -1,28 +1,18 @@
 package com.chess.candidate.battlequeens.ui.screens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,21 +24,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.core.content.ContextCompat.getString
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.chess.candidate.battlequeens.R
-import com.chess.candidate.battlequeens.features.playgame.viewmodel.FindSolutions
 import com.chess.candidate.battlequeens.features.playgame.viewmodel.PlayGameViewModel
-import com.chess.candidate.battlequeens.ui.components.content.ContentGreen
 import com.chess.candidate.battlequeens.ui.theme.BattleQueensTheme
 import com.chess.candidate.battlequeens.ui.theme.Typography
 import com.chess.candidate.battlequeens.ui.utils.navigation.Home
@@ -58,7 +41,6 @@ import com.chess.candidate.battlequeens.ui.utils.navigation.TOP_LEVEL_ROUTES
 import com.chess.candidate.battlequeens.ui.utils.navigation.TopLevelBackStack
 import kotlinx.coroutines.delay
 import java.lang.System.exit
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -167,11 +149,11 @@ fun BQStartScreen(playViewModel: PlayGameViewModel) {
                                 updatePreferences = viewModel::updateUserPrefs
                             )
                         } ?: run {
-                            ContentGreen("Error loading user preferences") {
-//                                            Button(onClick = { topLevelBackStack.add(ChatDetail) }) {
-//                                                Text("Go to conversation")
-//                                            }
-                            }
+                            Text(
+                                text = "Loading preferences...",
+                                style = Typography.bodyLarge,
+                                modifier = Modifier.padding(contentPadding)
+                            )
                         }
                     }
                     entry<Stats> {

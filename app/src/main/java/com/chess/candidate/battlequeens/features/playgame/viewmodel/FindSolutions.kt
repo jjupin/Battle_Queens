@@ -2,7 +2,17 @@ package com.chess.candidate.battlequeens.features.playgame.viewmodel
 
 import android.util.Log
 
-
+/**
+ * FindSolutions.kt
+ *
+ * This file contains the logic for finding solutions to the N-Queens problem.
+ * It includes functions to generate all possible solutions, and check if a placement is safe,
+ * as well as functions to find the next suggested square based on the current board state.
+ * It also includes logic to reset the solutions and manage the latest solution and suggested square.
+ *
+ * The N-Queens problem is a classic problem in computer science and artificial intelligence,
+ * where the goal is to place N queens on an N x N chessboard such that no two queens threaten each other.
+ */
 object FindSolutions {
 
     const val TAG = "FindSolutions"
@@ -31,7 +41,6 @@ object FindSolutions {
         res: ArrayList<ArrayList<Int>>, rows: Int, ld: Int, rd: Int
     ) {
         // If all queens are placed, add into res
-
         if (col > n) {
             res.add(ArrayList(board))
             return
@@ -44,7 +53,6 @@ object FindSolutions {
 
             if (isSafe(row, col, rows, ld, rd, n)) {
                 // Place the queen
-
                 board.add(row)
 
                 // Recur to place the next queen
@@ -151,9 +159,9 @@ object FindSolutions {
 
     //
     // isSolutionForInput - checks that the user's input matches the latest selected
-    // solution.  When choosing the next square, if the user does not selected the
+    // solution.  When choosing the next square, if the user does not select the
     // suggested square from Einstein, then the latest solution is invalidated - so
-    // must search again for another solution that matches the places queens.
+    // must search again for another solution that matches the placed queens.
     //
 
     fun isSolutionForInput(input: IntArray): Boolean {

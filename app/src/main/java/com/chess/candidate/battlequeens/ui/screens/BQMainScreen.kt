@@ -3,9 +3,9 @@ package com.chess.candidate.battlequeens.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -13,10 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.chess.candidate.battlequeens.features.playgame.viewmodel.PlayGameViewModel
 import com.chess.candidate.battlequeens.features.preferences.model.UserPreferences
-import com.chess.candidate.battlequeens.ui.components.dialogs.AnimatedDialog
 import com.chess.candidate.battlequeens.ui.components.dialogs.GameBlockedDialog
 import com.chess.candidate.battlequeens.ui.components.dialogs.GameOverDialog
 import com.chess.candidate.battlequeens.ui.components.dialogs.GetNumberOfQueensDialog
@@ -27,12 +25,11 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun BQMainScreen(
     viewModel: PlayGameViewModel,
-    innerPadding: androidx.compose.foundation.layout.PaddingValues,
+    innerPadding: PaddingValues,
     finish: () -> Unit
 ) {
     val gameState = viewModel.gameState.collectAsState()
     val statSaved = remember { mutableStateOf(false) }
-    var inputNumQueens = 0
 
     Column() {
         Box(
@@ -41,10 +38,12 @@ fun BQMainScreen(
                 .padding(innerPadding)
         ) {
 
+            val wallpaper = viewModel.getUserPrefsAsStream().collectAsState().value?.wallpaper ?: 0
+            val wallpaperId = viewModel.prefsViewModel.getWallpaperId(wallpaper)
+
             Image(
                 painter = painterResource(
-                    id = com.chess.candidate.battlequeens.R.drawable.wallpaper_02
-
+                    id = wallpaperId
                 ),
                 contentDescription = "Chess Rules Wallpaper",
                 modifier = Modifier.fillMaxSize(),
@@ -62,7 +61,6 @@ fun BQMainScreen(
                             viewModel.setNumberOfQueens(
                                 it ?: Constants.AppConstants.MINIMUM_NUMBER_QUEENS
                             )
-                            inputNumQueens = it ?: 4
                             viewModel.updateGameState(PlayGameViewModel.GameState.PLAYING)
                         }
                     )
@@ -80,8 +78,9 @@ fun BQMainScreen(
                         modifier = Modifier
                             .fillMaxSize()
                     )
-                    if (gameState.value == PlayGameViewModel.GameState.GAME_OVER) {
 
+                    // now show any dialogs that are needed based on the game state
+                    if (gameState.value == PlayGameViewModel.GameState.GAME_OVER) {
                         if (!statSaved.value) {
                             viewModel.saveGameStat(
                                 numQueens = viewModel.numQueens,
@@ -90,7 +89,6 @@ fun BQMainScreen(
                             )
                             statSaved.value = true
                         }
-
                         GameOverDialog(
                             timeDuration = viewModel.getTimerValueAsString(),
                             numQueens = viewModel.numQueens,

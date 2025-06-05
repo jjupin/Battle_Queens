@@ -19,6 +19,10 @@ internal const val ANIMATION_TIME = 1000L
 internal const val DIALOG_BUILD_TIME = 300L
 
 // Inspired by https://medium.com/tech-takeaways/ios-like-modal-view-dialog-animation-in-jetpack-compose-fac5778969af
+//
+// These animations are used for dialogs and bottom sheets in the app.  They provide a smooth
+// transition effect when the dialog appears or disappears.
+
 
 @Composable
 internal fun AnimatedModalBottomSheetTransition(

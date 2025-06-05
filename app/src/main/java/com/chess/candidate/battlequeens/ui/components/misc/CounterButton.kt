@@ -35,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,9 +46,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.chess.candidate.battlequeens.utils.Constants.AppConstants.MAXIMUM_NUMBER_QUEENS
+import com.chess.candidate.battlequeens.utils.Constants.AppConstants.MINIMUM_NUMBER_QUEENS
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -412,6 +416,30 @@ private fun DraggableThumbButton(
             textAlign = TextAlign.Center,
         )
     }
+}
+
+@Composable
+@PreviewLightDark
+private fun CounterButtonPreview() {
+    val value = remember { mutableStateOf("0") }
+    var valueCounter by remember {
+        mutableStateOf(MINIMUM_NUMBER_QUEENS)
+    }
+
+    CounterButton(
+        value = valueCounter.toString(),
+        onValueIncreaseClick = {
+            val amount = if (valueCounter < MAXIMUM_NUMBER_QUEENS) 1 else 0
+            valueCounter += amount
+        },
+        onValueDecreaseClick = {
+            val amount = if (valueCounter > MINIMUM_NUMBER_QUEENS) 1 else 0
+            valueCounter -= amount
+        },
+        onValueClearClick = {
+            valueCounter = 0
+        }
+    )
 }
 
 @Composable
