@@ -13,6 +13,12 @@ Some of the technologies used to create this app include:
 <li><b><a href="https://insert-koin.io/">Koin</a></b> - for Dependency Injection</li>
 <li><b><a href="https://developer.android.com/jetpack/androidx/releases/room">Room Database</a></b> - for storing the statistics that appear in the Stats tab</li>
 <li><b><a href="https://developer.android.com/topic/libraries/architecture/datastore">Preferences Datastore</a></b> - user preferences for the app</li>
+</br>
+</br>
+The app follows the architecture recommended by Google Android team for the development of Android apps.  Documentation can be found here -> <b><a href="https://developer.android.com/topic/architecture">Recommeneded App Architecture</a></b>
+</br>
+</br>
+Next is some screenshots from the app - this includes the various tab interfaces and the starting dialog for selecting the number of queens to begin play.
 
 </br>
 </br>
