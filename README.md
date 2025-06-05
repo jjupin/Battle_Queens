@@ -7,6 +7,12 @@ the ability to enable "Einstein" mode which will show the next square to select 
 can turn on "Free Squares" or "Available Squares" - these are squares on the board that a queen placed on it will not be in danger
 of being killed by any other queen on the board.  Einstein mode will also inform the user when it cannot place any other queen since
 no solution is possible given the current configuration of place queens.
+</br>
+</br>
+Some of the technologies used to create this app include:
+<li><b><a href="https://insert-koin.io/">Koin</a></b> - for Dependency Injection</li>
+<li><b><a href="https://developer.android.com/jetpack/androidx/releases/room">Room Database</a></b> - for storing the statistics that appear in the Stats tab</li>
+<li><b><a href="https://developer.android.com/topic/libraries/architecture/datastore">Preferences Datastore</a></b> - user preferences for the app</li>
 
 </br>
 </br>
