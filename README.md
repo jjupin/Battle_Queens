@@ -1,4 +1,4 @@
-Battle Queens
+<H1>Battle Queens</H1>
 
 This is an interactive solution to the classic N-Queens problem.  The problem is to place N Queens on an N x N board.  
 The minimum size is 4 queens since anything smaller does not allow for the placement of the queens without killing at least one queen.
