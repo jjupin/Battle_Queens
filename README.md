@@ -1,4 +1,4 @@
-Battle Queens
+<H1>Battle Queens</H1>
 
 This is an interactive solution to the classic N-Queens problem.  The problem is to place N Queens on an N x N board.  
 The minimum size is 4 queens since anything smaller does not allow for the placement of the queens without killing at least one queen.
@@ -7,10 +7,23 @@ the ability to enable "Einstein" mode which will show the next square to select 
 can turn on "Free Squares" or "Available Squares" - these are squares on the board that a queen placed on it will not be in danger
 of being killed by any other queen on the board.  Einstein mode will also inform the user when it cannot place any other queen since
 no solution is possible given the current configuration of place queens.
+</br>
+</br>
+Some of the technologies used to create this app include:
+<li><b><a href="https://insert-koin.io/">Koin</a></b> - for Dependency Injection</li>
+<li><b><a href="https://developer.android.com/jetpack/androidx/releases/room">Room Database</a></b> - for storing the statistics that appear in the Stats tab</li>
+<li><b><a href="https://developer.android.com/topic/libraries/architecture/datastore">Preferences Datastore</a></b> - user preferences for the app</li>
+</br>
+</br>
+The app follows the architecture recommended by Google Android team for the development of Android apps.  Documentation can be found here -> <b><a href="https://developer.android.com/topic/architecture">Recommeneded App Architecture</a></b>
+</br>
+</br>
+Next is some screenshots from the app - this includes the various tab interfaces and the starting dialog for selecting the number of queens to begin play.
 
 </br>
 </br>
 <img width="223" alt="enter_number_of_queens" src="https://github.com/user-attachments/assets/4845d07e-eea2-4574-8ef7-e60ecaf35d27" />
+</br>
 </br>
 Dialog box to enter the number of queens to play
 </br>
@@ -19,14 +32,19 @@ Dialog box to enter the number of queens to play
 
 ![game_play_screen](https://github.com/user-attachments/assets/ca84a2d0-b9f2-4bc5-990d-e3b4b493a9e3)
 </br>
-Example of the game play screen.  The user can see the time taken to solve the puzzle as well as number of queens remaining.
+</br>
+Example of the game play screen.  The user can 
+see the time taken to solve the puzzle as well as 
+number of queens remaining.
 </br>
 </br>
 </br>
 
 ![stats_screen](https://github.com/user-attachments/assets/f8d18796-a5ff-443a-98fe-40d0d7445bbc)
 </br>
-Shows the user's stats on the various configurations attempted.  If Einstein icon is visible, then the user used it's assistance
+</br>
+Shows the user's stats on the various configurations attempted.  
+If Einstein icon is visible, then the user used it's assistance
 in solving the puzzle.
 </br>
 </br>
@@ -34,6 +52,7 @@ in solving the puzzle.
 
 
 ![user_prefs_screen](https://github.com/user-attachments/assets/26ec7a15-55a7-4544-92dd-016b7779522e)
+</br>
 </br>
 Various preferences the user can set.
 </br>
