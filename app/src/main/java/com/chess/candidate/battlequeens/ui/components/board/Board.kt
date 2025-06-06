@@ -1,5 +1,6 @@
 package com.chess.candidate.battlequeens.ui.components.board
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -76,7 +77,9 @@ fun Board(
         }
     }
 
-    Box(modifier = modifier.background(Color.Transparent).padding(16.dp)) {
+    Box(modifier = modifier
+        .background(Color.Transparent)
+        .padding(16.dp)) {
         AnimatedSlideInTransition(visible = animateTrigger.value) {
 
             // put background frame
@@ -115,7 +118,8 @@ fun Board(
                                 color = Color.Red
                             }
                             if (isSquareAvailable && !sqr.isInQueensPath) {
-                                color = if (isDark) SquareDarkAvailableColor else SquareLightAvailableColor
+                                color =
+                                    if (isDark) SquareDarkAvailableColor else SquareLightAvailableColor
                             }
                         }
 
@@ -128,8 +132,13 @@ fun Board(
                         )
                         // println("BoardContent: numQueens = $numQueens, placedQueensCount = $placedQueens hightLightCount = $highlightCounter,")
                     }
+                } ?: run {  // merely to track as the board popuplates.  Will remove this before production...
+                    println("BoardContent: numQueens = $numQueens, placedQueensCount = $placedQueens hightLightCount = $highlightCounter")
+                    Log.d(
+                        "BoardContent",
+                        "numQueens = $numQueens, placedQueensCount = $placedQueens, highlightCounter = $highlightCounter"
+                    )
                 }
-                ?: println("BoardContent: numQueens = $numQueens, placedQueensCount = $placedQueens hightLightCount = $highlightCounter")
             }
         }
     }
